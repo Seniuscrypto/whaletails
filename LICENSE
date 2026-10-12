@@ -1,0 +1,10 @@
+Copyright (c) 2026 Whale Tail (whaletails.fun). All rights reserved.
+
+The source code in this repository is published for review only. No permission is
+granted to copy, modify, distribute, deploy or use it, in whole or in part, without
+prior written permission from the copyright holder.
+
+solana-oft/lock_supply.rs is an addition to LayerZero Labs' Solana OFT program
+(https://github.com/LayerZero-Labs/devtools), which remains under its own license.
+The Solidity contracts build on LayerZero's oft-evm and OpenZeppelin libraries,
+which remain under their own licenses.
