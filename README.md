@@ -30,6 +30,8 @@ This repository is a showcase for review: architecture, the contracts we wrote, 
 
 Team launches split creator fees across members through a per-coin vault, and supporters can pledge liquidity that goes into the graduated pool, locked.
 
+**Creator fees are claimed, not airdropped.** Like pump.fun, each team member claims their own share from the coin page, signing with their own wallet. Nothing is sent to anyone who does not ask, so no transaction fees are spent on payouts nobody needed yet. The claim pulls the fees that accrued into the coin's vault and pays the claimant in the same transaction; every other member's share is set aside for them until they claim.
+
 **Solana + Robinhood Chain.** One coin, 1,000,000,000 supply, half on each chain:
 
 - a one-sided **Meteora DAMM v2** pool on Solana with an anti-sniper fee (50% falling to 1% over the first minute),
@@ -105,11 +107,9 @@ Creator payouts are automatic. Each coin's vault always keeps Solana's rent-exem
 
 ---
 
-## In testing: pair a coin with USDC, tokenized stocks or Sunrise assets
+## Pair a coin with USDC, tokenized stocks or Sunrise assets
 
-Built and running on our devnet test environment, not yet live on mainnet.
-
-A Solana curve coin will be able to trade against something other than SOL:
+Live on mainnet since 2026-10-13. A Solana curve coin can trade against something other than SOL:
 
 - **Popular:** SOL, USDC, and the xStocks TSLAx, NVDAx, SPYx and AAPLx.
 - **Sunrise:** 113 assets listed on Solana through [Sunrise](https://sunrise.xyz) (Wormhole Labs): tokenized stocks issued by Backpack Securities (MU, AMD, NFLX, HOOD, IONQ and more) and crypto assets (TAO, DOGE, LINK, AVAX, HYPE and more).
@@ -122,6 +122,8 @@ How it was checked:
 - Every Sunrise asset was checked on mainnet for a Jupiter SOL route and, for Token-2022 mints, a Meteora DBC token badge. Five assets were left out because Meteora cannot use them as a curve's pairing.
 - On devnet, wallets holding only SOL launched, bought, sold, graduated and traded on the pool for USDC, xStocks, a Backpack stock and a crypto asset.
 - On mainnet, a SOL-paid buy and a SOL-returning sell on a real USDC DAMM v2 pool, and SOL to each xStock, were **simulated** (nothing sent): all pass, at 690 to 900 bytes.
+- Then with real funds on mainnet, before opening to everyone: a SOL coin, a TSLAx coin and a Sunrise RIOT coin were each launched, bought, sold and their creator fees claimed, and the platform's half collected, in each coin's own pairing.
+- The automatic SOL to pairing swap allows 2% price movement, so thin markets do not fail a launch while the wallet is signing.
 
 ---
 
@@ -170,7 +172,7 @@ Uniswap liquidity went in at 10:51:48 UTC and the Meteora pool opened at 10:51:4
 
 ## Stack
 
-Node.js server (Express, SQLite) · Meteora DLMM, DBC and DAMM v2 SDKs · LayerZero OFT (Solana program + EVM) · Uniswap v3 on Robinhood Chain · Jupiter (SOL routing for paired coins, in testing) · Solidity 0.8.22 · Anchor · plain-JS front end under a strict same-origin CSP (Phantom, Solflare, Backpack; MetaMask or Rabby for Robinhood).
+Node.js server (Express, SQLite) · Meteora DLMM, DBC and DAMM v2 SDKs · LayerZero OFT (Solana program + EVM) · Uniswap v3 on Robinhood Chain · Jupiter (SOL routing for paired coins) · Solidity 0.8.22 · Anchor · plain-JS front end under a strict same-origin CSP (Phantom, Solflare, Backpack; MetaMask or Rabby for Robinhood).
 
 ## License
 
