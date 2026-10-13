@@ -101,7 +101,7 @@ Creator payouts are automatic. Each coin's vault always keeps Solana's rent-exem
 - **Verifiers:** each coin requires **two** independent LayerZero verifiers, LayerZero Labs and Nethermind, set explicitly on both chains. The default verifier for this route on Robinhood mainnet was a deprecated "dead" verifier, and LayerZero Labs does not sign for 1-of-1 setups, so neither the default nor a single verifier would deliver.
 - **Crash-safe launches:** every paid step records what it is about to create before sending, and checks the chain on a rerun, so a restart never pays for a step twice.
 - **Signed transactions:** wallets may add a priority fee and Phantom's Lighthouse guards; anything else is refused.
-- **Clear errors before signing:** a launch checks the wallet's SOL first and caps a first buy below the size of the whole curve, instead of failing on chain.
+- **Clear errors before signing:** a launch checks the wallet's SOL first, instead of failing on chain.
 
 ---
 
