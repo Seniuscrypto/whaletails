@@ -1,6 +1,6 @@
 # Whale Tail
 
-**Meteora-native trading: copy the best LPs, and launch one coin on Solana and Robinhood Chain at the same second.**
+**Meteora-native trading: copy the best LPs, and launch coins on Solana, BNB Chain and Robinhood Chain, or one coin on Solana and Robinhood at the same second.**
 
 [whaletails.fun](https://whaletails.fun) · [Launchpad](https://whaletails.fun/launch) · [X](https://x.com/CryptoSenius)
 
@@ -8,10 +8,50 @@ Whale Tail has two products, both built on Meteora and live on mainnet.
 
 | | What it does | Meteora pieces |
 |---|---|---|
-| **Copy LPs** | Finds the best liquidity providers on Meteora from on-chain data, ranks them by real returns, and mirrors their positions for members automatically. 27,000+ live copy trades mirrored so far, with stop losses checked every 30 seconds. | DLMM |
-| **Launchpad** | Launch a coin on a Solana bonding curve, or on Solana and Robinhood Chain at the same second, at the same price, with liquidity locked on both chains. Open to everyone. | Dynamic Bonding Curve, DAMM v2 |
+| **Copy LPs** | Finds the best liquidity providers on Meteora from on-chain data, ranks them by real returns, and mirrors their positions for members automatically: opens, closes, partial exits, top-ups, rebalances and fee claims. **34,000+ live copy trades mirrored so far**, with stop losses checked every 30 seconds. Now also on Robinhood Chain. | DLMM |
+| **Launchpad** | Launch a coin on **Solana**, **BNB Chain** or **Robinhood Chain**, or one coin on Solana and Robinhood at the same second with liquidity locked on both chains. Bonding curves graduate into locked pools; on BNB a coin can also open straight into a locked PancakeSwap pool. Open to everyone. | Dynamic Bonding Curve, DAMM v2 |
 
-This repository is a showcase for review: architecture, the contracts we wrote, and on-chain proof. The server that runs the platform is not published.
+> **Updated 2026-10-19.** Everything added since the submission is in [What's new](#whats-new-since-the-submission-2026-10-13--10-19) just below.
+
+### What is public and what is private
+
+This repository is a **showcase for review**: architecture, the smart contracts we wrote, and on-chain proof. **Everything else is kept private on purpose**: the server that runs the platform (the copy engine, the position mirror, the AutoRun ranking, the launchpad backend and keepers), our infrastructure, keys and operations. The contracts here are the ones that hold or move value on chain, so anyone can check them against what is deployed.
+
+---
+
+## What's new since the submission (2026-10-13 → 10-19)
+
+**Launchpad: three chains**
+
+- **BNB Chain is live.** Two ways to launch, from MetaMask, Rabby or any EVM wallet, paid in BNB:
+  - **Bonding curve** (`WTCurve`): a fair curve that graduates into a locked **PancakeSwap v3** pool, at exactly the curve's final price.
+  - **Instant PancakeSwap** (`WTInstant`): the coin opens **straight into a locked PancakeSwap v3 pool** holding the whole supply, one-sided, in the same transaction that creates it, so nobody can create the pool first at another price. The creator's opening buy is the pool's first trade, so the coin **shows on DexScreener and trading terminals from its first trade**. Pool fees split 50/50 creator and platform through the locker.
+- **Robinhood Chain bonding curve** (`WTCurve`) is live alongside the instant Uniswap launch: buyers trade on the curve until it fills, then it graduates into a locked **Uniswap v3** pool.
+- **Creators choose the graduation target** on Solana: **30, 50 or 85 SOL**. Lower graduates sooner; higher gives a deeper pool. Each target is its own Meteora DBC config.
+- **One engine for every EVM chain.** The same contracts and server are built and tested end to end on **39 EVM chains** (local devnets of each chain: Uniswap v3, PancakeSwap v3 and Uniswap v2-style DEXes). Mainnet chains are opened one at a time after a real mainnet test; BNB Chain was the first.
+
+**Copy LPs**
+
+- **AutoRun learns from every copy.** Members on Auto get a weekly whale rotation ranked by **what each whale actually returned to everyone copying it**. A whale that is losing across all copies (40+ closed positions) is now dropped automatically, even before it has cost that member anything.
+- **Exactly one copy per whale position.** A guard makes a second open of the same whale position impossible, whichever path (transaction feed or position watcher) sees it first.
+- **Robinhood Chain copy trading** is open to everyone: a meme-only board of the top Robinhood LPs, each member's own Robinhood wallet, and a 5% performance fee charged only on profitable closes, never on a loss.
+
+**Security**
+
+- **Showing a private key** takes the account's password, a code from the Whale Tail bot on Telegram, and a 24-hour wait. Accounts that sign in with a wallet add a password with a fresh signature from that wallet plus a Telegram code, so a stolen session alone can never set one.
+
+**Live contracts added**
+
+| | Address |
+|---|---|
+| BNB Chain curve factory (`WTCurve`) | [`0x5D57056688e712c8d9902ca5B4d07166a82F8388`](https://bscscan.com/address/0x5D57056688e712c8d9902ca5B4d07166a82F8388) |
+| BNB Chain instant factory (`WTInstant`) | [`0xFf94dcd4c38d9B1783b561029396446380390Ed9`](https://bscscan.com/address/0xFf94dcd4c38d9B1783b561029396446380390Ed9) |
+| BNB Chain LP locker | [`0x128B13BC617D724ef03322BE7dDF30D6849E32E1`](https://bscscan.com/address/0x128B13BC617D724ef03322BE7dDF30D6849E32E1) |
+| Robinhood Chain curve factory (`WTCurve`) | [`0x08492fF20800C6f100068e5754Ff39ee76EF797f`](https://explorer.chain.robinhood.com/address/0x08492fF20800C6f100068e5754Ff39ee76EF797f) |
+
+Example instant launch on BNB Chain: coin [`0x0a2734E7…9776`](https://bscscan.com/token/0x0a2734E7d116a4f358aD380e6340402ea4F79776), PancakeSwap v3 pool [`0x92C62fF7…8448`](https://dexscreener.com/bsc/0x92c62ff7e231cf00b1de73ccaf664e5dfa998448), listed on DexScreener right after its first trade.
+
+**In numbers (2026-10-19):** 34,000+ copy trades mirrored · 117 members · 89 coins launched (81 Solana, 5 Solana + Robinhood, 2 Robinhood, 1 BNB) · 6 graduated.
 
 ---
 
@@ -135,6 +175,8 @@ How it was checked:
 | [`contracts/WhaletailsLpLocker.sol`](contracts/WhaletailsLpLocker.sol) | Robinhood Chain | Holds Uniswap v3 launch positions forever; anyone can trigger the 50/50 fee split. |
 | [`contracts/WhaletailsPriceSetter.sol`](contracts/WhaletailsPriceSetter.sol) | Robinhood Chain | Moves an empty Uniswap v3 pool to the launch price before liquidity goes in; reverts if the pool holds liquidity. |
 | [`solana-oft/lock_supply.rs`](solana-oft/lock_supply.rs) | Solana | The instruction we added to LayerZero's OFT program. |
+| [`contracts/WTCurve.sol`](contracts/WTCurve.sol) | BNB Chain, Robinhood Chain (any EVM chain) | The bonding curve and its factory: constant product with a phantom reserve, snipe tax, graduation into a locked Uniswap v3 or PancakeSwap v3 position at the curve's final price. No owner, no withdrawal of curve funds. |
+| [`contracts/WTInstant.sol`](contracts/WTInstant.sol) | BNB Chain (any EVM chain) | Instant launch: fixed 1B supply, pool created and initialised in the same transaction, the whole supply one-sided and locked, the creator's opening buy as the first trade. |
 
 ---
 
@@ -172,8 +214,8 @@ Uniswap liquidity went in at 10:51:48 UTC and the Meteora pool opened at 10:51:4
 
 ## Stack
 
-Node.js server (Express, SQLite) · Meteora DLMM, DBC and DAMM v2 SDKs · LayerZero OFT (Solana program + EVM) · Uniswap v3 on Robinhood Chain · Jupiter (SOL routing for paired coins) · Solidity 0.8.22 · Anchor · plain-JS front end under a strict same-origin CSP (Phantom, Solflare, Backpack; MetaMask or Rabby for Robinhood).
+Node.js server (Express, SQLite) · Meteora DLMM, DBC and DAMM v2 SDKs · LayerZero OFT (Solana program + EVM) · Uniswap v3 on Robinhood Chain · PancakeSwap v3 on BNB Chain · Jupiter (SOL routing for paired coins) · Solidity 0.8.22 / 0.8.26 · Anchor · plain-JS front end under a strict same-origin CSP (Phantom, Solflare, Backpack; MetaMask or Rabby for Robinhood).
 
 ## License
 
-Source shown for review. All rights reserved, see [LICENSE](LICENSE).
+Source shown for review. All rights reserved, see [LICENSE](LICENSE). Everything not in this repository (the platform's server, engine, infrastructure and keys) is private.
