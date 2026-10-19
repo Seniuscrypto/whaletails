@@ -15,11 +15,23 @@ Whale Tail has two products, both built on Meteora and live on mainnet.
 
 ### What is public and what is private
 
-This repository is a **showcase for review**: architecture, the smart contracts we wrote, and on-chain proof. **Everything else is kept private on purpose**: the server that runs the platform (the copy engine, the position mirror, the AutoRun ranking, the launchpad backend and keepers), our infrastructure, keys and operations. The contracts here are the ones that hold or move value on chain, so anyone can check them against what is deployed.
+This repository is a **showcase for review**: architecture, the smart contracts we wrote, and on-chain proof. **Everything else is kept private on purpose**: the server that runs the platform (the copy engine, the position mirror, the AutoRun ranking, the launchpad backend and keepers, the Telegram bot and its wallets), our infrastructure, keys and operations. The contracts here are the ones that hold or move value on chain, so anyone can check them against what is deployed.
 
 ---
 
 ## What's new since the submission (2026-10-13 → 10-19)
+
+**Built on 2026-10-19: launch from Telegram, from one line or from an X post**
+
+- **A wallet inside Telegram.** Send `/start` to [@WhaleTailBot](https://t.me/WhaleTailBot) and tap *Create my Whale Tail wallet*: a Solana wallet is ready in seconds, no website, no browser wallet, no seed phrase. `/start` then works as a home screen: address, balance and next steps.
+  - **Locked down by design:** the bot never shows a private key and has no way to send funds out. `/protect` adds an email and password through a one-time, 15-minute link, after which every sign-in from a new device needs a code from the bot (2FA). Showing a key stays on the website: password, a Telegram code, a 24-hour wait, then password and code again, and the bot now tells the member the moment the wait is over.
+  - One account per Telegram user, private chats only, and the same site-wide sign-up limit as every other way in.
+- **`/launch <idea>`: a coin from one line.** `/launch a cat with fire in the hair` reads the words (16 animals, about 90 trait words such as fire, lasers, crowns, shades or country flags), draws a matching mascot logo from parts (no AI image service, no cost), names the coin and picks a ticker. The user sees a preview with *Launch*, *New look*, *Change name*, *Opening buy* and *Cancel*; when the idea is something the mascot cannot draw, the bot asks for a picture instead.
+- **`/launch <X link>`: a coin from any X post,** in the bot and on the website (*Launch from an X post* fills the whole create form). The post is read without logging in to X: its picture becomes the logo (cropped square), its `$cashtag` the ticker, the post is quoted in the description and linked as the coin's X page. Prices such as `$146.03` are never taken for a ticker.
+- **Paid by the creator, nothing else.** A Telegram launch is created from the member's own Whale Tail wallet, which pays the transaction: about **0.021 SOL** of Solana network costs, no launch fee. The balance is checked first, with a deposit prompt when it is short.
+- **The 10 SOL bonding bounty, visible everywhere.** Bond a coin on a regular 85 SOL Meteora curve and win 10 SOL: a banner and a live *Closest to bonding* race on the launchpad, and `/bounty` in the bot.
+
+Example, launched end to end from a wallet made in Telegram, from an X post: [`DEutELZp…oWTL`](https://solscan.io/token/DEutELZpyFYaQkGYdEK4QDgYEtdVPa4BL494w5N8oWTL) on the 85 SOL Meteora DBC curve.
 
 **Launchpad: three chains**
 
@@ -51,7 +63,7 @@ This repository is a **showcase for review**: architecture, the smart contracts 
 
 Example instant launch on BNB Chain: coin [`0x0a2734E7…9776`](https://bscscan.com/token/0x0a2734E7d116a4f358aD380e6340402ea4F79776), PancakeSwap v3 pool [`0x92C62fF7…8448`](https://dexscreener.com/bsc/0x92c62ff7e231cf00b1de73ccaf664e5dfa998448), listed on DexScreener right after its first trade.
 
-**In numbers (2026-10-19):** 34,000+ copy trades mirrored · 117 members · 89 coins launched (81 Solana, 5 Solana + Robinhood, 2 Robinhood, 1 BNB).
+**In numbers (2026-10-19, evening):** 34,000+ copy trades mirrored · 118 members · 109 coins launched (101 Solana, 5 Solana + Robinhood, 2 Robinhood, 1 BNB), 20 of them from Telegram on the first day, 9 of those from X posts.
 
 ---
 
