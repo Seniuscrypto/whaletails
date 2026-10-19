@@ -51,7 +51,7 @@ This repository is a **showcase for review**: architecture, the smart contracts 
 
 Example instant launch on BNB Chain: coin [`0x0a2734E7…9776`](https://bscscan.com/token/0x0a2734E7d116a4f358aD380e6340402ea4F79776), PancakeSwap v3 pool [`0x92C62fF7…8448`](https://dexscreener.com/bsc/0x92c62ff7e231cf00b1de73ccaf664e5dfa998448), listed on DexScreener right after its first trade.
 
-**In numbers (2026-10-19):** 34,000+ copy trades mirrored · 117 members · 89 coins launched (81 Solana, 5 Solana + Robinhood, 2 Robinhood, 1 BNB) · 6 graduated.
+**In numbers (2026-10-19):** 34,000+ copy trades mirrored · 117 members · 89 coins launched (81 Solana, 5 Solana + Robinhood, 2 Robinhood, 1 BNB).
 
 ---
 
