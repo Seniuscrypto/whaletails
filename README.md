@@ -11,7 +11,7 @@ Whale Tail has two products, both built on Meteora and live on mainnet.
 | **Copy LPs** | Finds the best liquidity providers on Meteora from on-chain data, ranks them by real returns, and mirrors their positions for members automatically: opens, closes, partial exits, top-ups, rebalances and fee claims. **34,000+ live copy trades mirrored so far**, with stop losses checked every 30 seconds. Now also on Robinhood Chain. | DLMM |
 | **Launchpad** | Launch a coin on **Solana**, **BNB Chain** or **Robinhood Chain**, or one coin on Solana and Robinhood at the same second with liquidity locked on both chains. Bonding curves graduate into locked pools; on BNB a coin can also open straight into a locked PancakeSwap pool. Open to everyone. | Dynamic Bonding Curve, DAMM v2 |
 
-> **Updated 2026-10-19.** Everything added since the submission is in [What's new](#whats-new-since-the-submission-2026-10-13--10-19) just below.
+> **Updated 2026-10-21.** Everything added since the submission is in [What's new](#whats-new-since-the-submission-2026-10-13--10-21) just below.
 
 ### What is public and what is private
 
@@ -19,12 +19,22 @@ This repository is a **showcase for review**: architecture, the smart contracts 
 
 ---
 
-## What's new since the submission (2026-10-13 → 10-19)
+## What's new since the submission (2026-10-13 → 10-21)
+
+**Built on 2026-10-20 → 10-21: any viral post becomes a coin, and the person who made the post gets paid**
+
+- **Launch from a TikTok, YouTube, X or Instagram link,** in [@WhaleTailBot](https://t.me/WhaleTailBot) (`/launch <link>`) and on the website (*Launch from a post link* fills the whole create form). Posts are read without logging in to any platform: a YouTube video gives its title and thumbnail, a TikTok its caption and cover picture, an X post its text and picture. The words name the coin and pick the ticker, the picture becomes the logo, and the post is linked on the coin page. Where a platform shares little (Instagram), the user adds their idea after the link and sends their own picture.
+- **The poster gets paid.** A coin launched from a post sets aside **10% of its creator fees for the person who made that post**. They prove the account is theirs with a one-time code: in their TikTok bio, in their YouTube channel description, or in a tweet from their X account (Instagram is checked by hand). Their share then works like any team member's on the [claims model](#two-ways-to-launch), and they claim from the coin page with their own wallet. Unclaimed after **30 days**, what was set aside goes to the platform and the creator's full share comes back. Until it is claimed the share sits in the coin's vault, on chain.
+- **No snipe tax on Solana.** New coins trade at a **flat 1% fee from the first second** (it used to start at 50% and fall to 1% over a minute). Early buyers can move a coin straight away, which is what new coins need. Meteora DBC configs cannot be edited, so new coins launch from new configs; coins launched before keep theirs. New configs: classic 85 SOL [`9FFGRkho…DbnU`](https://solscan.io/account/9FFGRkhoEGfLhAdnAJvKLQgHfsjewT4kwjAJvPMtDbnU), classic 30 SOL [`2jsGw73c…ShJX`](https://solscan.io/account/2jsGw73c2h4Cr9xBCLKHw8vS5rqNdG9gjAH8DWsYShJX); the other curve styles get theirs on their first launch. The Solana side of a 2-chain coin is flat 1% too.
+- **A TikTok link on every coin,** next to X, Telegram and website: on the create form, on the coin page and in the coin's on-chain metadata.
+- **Every link coin races for the 10 SOL bounty** when it is launched on the regular 85 SOL curve.
+- **Showing a private key** now takes the account's password and a code from the Whale Tail bot (the 24-hour wait is gone; members found it too strict). The member is still told on Telegram every time a key is shown.
+- **Less gas:** the platform's own fee claims run once a day instead of every hour; creator fees are not affected.
 
 **Built on 2026-10-19: launch from Telegram, from one line or from an X post**
 
 - **A wallet inside Telegram.** Send `/start` to [@WhaleTailBot](https://t.me/WhaleTailBot) and tap *Create my Whale Tail wallet*: a Solana wallet is ready in seconds, no website, no browser wallet, no seed phrase. `/start` then works as a home screen: address, balance and next steps.
-  - **Locked down by design:** the bot never shows a private key and has no way to send funds out. `/protect` adds an email and password through a one-time, 15-minute link, after which every sign-in from a new device needs a code from the bot (2FA). Showing a key stays on the website: password, a Telegram code, a 24-hour wait, then password and code again, and the bot now tells the member the moment the wait is over.
+  - **Locked down by design:** the bot never shows a private key and has no way to send funds out. `/protect` adds an email and password through a one-time, 15-minute link, after which every sign-in from a new device needs a code from the bot (2FA). Showing a key stays on the website, with the account's password and a Telegram code (since 2026-10-21; it first also had a 24-hour wait).
   - One account per Telegram user, private chats only, and the same site-wide sign-up limit as every other way in.
 - **`/launch <idea>`: a coin from one line.** `/launch a cat with fire in the hair` reads the words (16 animals, about 90 trait words such as fire, lasers, crowns, shades or country flags), draws a matching mascot logo from parts (no AI image service, no cost), names the coin and picks a ticker. The user sees a preview with *Launch*, *New look*, *Change name*, *Opening buy* and *Cancel*; when the idea is something the mascot cannot draw, the bot asks for a picture instead.
 - **`/launch <X link>`: a coin from any X post,** in the bot and on the website (*Launch from an X post* fills the whole create form). The post is read without logging in to X: its picture becomes the logo (cropped square), its `$cashtag` the ticker, the post is quoted in the description and linked as the coin's X page. Prices such as `$146.03` are never taken for a ticker.
@@ -50,7 +60,7 @@ Example, launched end to end from a wallet made in Telegram, from an X post: [`D
 
 **Security**
 
-- **Showing a private key** takes the account's password, a code from the Whale Tail bot on Telegram, and a 24-hour wait. Accounts that sign in with a wallet add a password with a fresh signature from that wallet plus a Telegram code, so a stolen session alone can never set one.
+- **Showing a private key** takes the account's password and a code from the Whale Tail bot on Telegram, and the member is told on Telegram each time a key is shown. Accounts that sign in with a wallet add a password with a fresh signature from that wallet plus a Telegram code, so a stolen session alone can never set one.
 
 **Live contracts added**
 
@@ -63,7 +73,7 @@ Example, launched end to end from a wallet made in Telegram, from an X post: [`D
 
 Example instant launch on BNB Chain: coin [`0x0a2734E7…9776`](https://bscscan.com/token/0x0a2734E7d116a4f358aD380e6340402ea4F79776), PancakeSwap v3 pool [`0x92C62fF7…8448`](https://dexscreener.com/bsc/0x92c62ff7e231cf00b1de73ccaf664e5dfa998448), listed on DexScreener right after its first trade.
 
-**In numbers (2026-10-19, evening):** 34,000+ copy trades mirrored · 118 members · 109 coins launched (101 Solana, 5 Solana + Robinhood, 2 Robinhood, 1 BNB), 20 of them from Telegram on the first day, 9 of those from X posts.
+**In numbers (2026-10-21, evening):** 35,000+ copy trades mirrored · 118 members · 126 coins launched (118 Solana, 5 Solana + Robinhood, 2 Robinhood, 1 BNB), 8 of them from TikTok, YouTube and X links on the day post-links opened.
 
 ---
 
@@ -86,7 +96,7 @@ Team launches split creator fees across members through a per-coin vault, and su
 
 **Solana + Robinhood Chain.** One coin, 1,000,000,000 supply, half on each chain:
 
-- a one-sided **Meteora DAMM v2** pool on Solana with an anti-sniper fee (50% falling to 1% over the first minute),
+- a one-sided **Meteora DAMM v2** pool on Solana at a flat 1% fee from the first second,
 - a one-sided **Uniswap v3** pool on Robinhood Chain,
 - both open **at the same second, at the same USD price**,
 - liquidity **locked forever** on both chains,
@@ -120,7 +130,7 @@ sequenceDiagram
     W->>R: Uniswap v3 pool, liquidity added at second T
     W->>R: position into WhaletailsLpLocker (locked forever)
     W->>R: opening buy for the creator
-    W->>S: opening buy for the creator (after the anti-sniper minute)
+    W->>S: opening buy for the creator (seconds after opening)
 ```
 
 ### Why no bridge at launch
@@ -143,8 +153,9 @@ Without counting the lock, the first transfer back to Solana would underflow `tv
 | Trading fees, Robinhood pool | 50% creator, 50% platform (split by `WhaletailsLpLocker`) |
 | Bridge fee, 0.25% each way | platform, paid in the coin |
 | Solana curve fees (DBC) | creator team and platform |
+| Creator fees of a coin launched from a post | 90% creator team, 10% the person who made the post (claimable for 30 days, then to the platform) |
 
-Creator payouts are automatic. Each coin's vault always keeps Solana's rent-exempt minimum and pays out everything above it.
+Creator fees are claimed by each team member from the coin page (see [above](#two-ways-to-launch)); each coin's vault always keeps Solana's rent-exempt minimum.
 
 ### Security choices
 
